@@ -1,0 +1,15 @@
+{
+  "name": "merge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:prodigy99/merge.git",
+  "author": "MK <646602196@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon merge.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  },
+  "dependencies": {}
+}
