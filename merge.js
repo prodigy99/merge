@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 const fs = require('fs')
 
-const convert = (from, to) => str => Buffer.from(str, from).toString(to)
-const utf8ToHex = convert('utf8', 'hex')
+// const convert = (from, to) => str => Buffer.from(str, from).toString(to)
+// const utf8ToHex = convert('utf8', 'hex')
 
 //Combine Array
 const merge =  intervals => {
@@ -15,23 +15,23 @@ const merge =  intervals => {
     for (let i = 1; i < intervals.length; i++) {
         let cur = intervals[i] //从第二个开始取cur
 
-        if (Number(utf8ToHex(candidate[1])) >= Number(utf8ToHex(cur[0])) - 1) { // 有重合 能合并
+        if (candidate[1] >= cur[0]) { // 有重合 能合并
             candidate[1] = cur[1] > candidate[1] ? cur[1] : candidate[1] // 左端不变 右端取大的
         } else { // 不重合 不能合并
-            res.push(candidate)
+            res.push(candidate.map(e => e.toString(16)))
             candidate = cur //把cur放进去临时控件
         }
     }
 
-    res.push(candidate)
+    res.push(candidate.map(e => e.toString(16)))
     return res
 };
 
 let filePath = process.argv[2];
 
 fs.readFile(filePath, (err, data) => {
-    data = data.toString().split("\n");
-    let intervals = data.map(item => item.split(":"));
+    data = data.toString().split(/\r?\n/);
+    let intervals = data.map(item => item.split(":").map(e => parseInt(e, 16)));
     let result = merge(intervals)
     
     result.forEach(item => {
